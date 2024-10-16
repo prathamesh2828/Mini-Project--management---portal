@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Login from './Login';
-import Signup from './Signup';
-import GuideDashboard from './GuideDashboard';
-import StudentDashboard from './StudentDashboard';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import GuideDashboard from './Guide/GuideDashboard';
+import StudentDashboard from './Student/StudentDashboard';
+import Team from "./Student/components/Team";
+
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route path="/register" element={<Signup />} />
         <Route path="/guide-dashboard" element={<GuideDashboard />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/team" element={< Team/>} />
+        
         {/* Other routes */}
       </Routes>
     </Router>

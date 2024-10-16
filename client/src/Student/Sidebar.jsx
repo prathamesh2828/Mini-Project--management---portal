@@ -17,18 +17,8 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/to-do" className="sidebar-item">
-            <i className="bi bi-list-check"></i> To Do
-          </Link>
-        </li>
-        <li>
-          <Link to="/in-progress" className="sidebar-item">
-            <i className="bi bi-hourglass-split"></i> In Progress
-          </Link>
-        </li>
-        <li>
-          <Link to="/completed" className="sidebar-item">
-            <i className="bi bi-check-circle-fill"></i> Completed
+          <Link to="/ManageTask" className="sidebar-item">
+            <i className="bi bi-list-check"></i> Manage Task
           </Link>
         </li>
         <li>

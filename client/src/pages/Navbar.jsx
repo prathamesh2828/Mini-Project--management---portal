@@ -30,7 +30,7 @@ const Navbar = () => {
             height="40"
             className="d-inline-block align-text-top"
           />
-          Mini Project Management
+          Mini Project Portal
         </Link>
 
         <form className="d-flex" onSubmit={handleSearch}>
@@ -47,6 +47,20 @@ const Navbar = () => {
           </button>
         </form>
 
+        
+
+
+{/* inbox */}
+        <button type="button" class=" btn btn-light position-relative">
+                 <i class="bi bi-bell-fill"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            9+
+            <span class="visually-hidden">unread messages</span>
+            </span>
+          </button>
+
+
+{/* profile drope down */}
         <DropdownButton
           align="end"
           title={

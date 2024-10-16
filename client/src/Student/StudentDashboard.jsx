@@ -1,7 +1,8 @@
 import React from "react";
-import Navbar from "./Navbar"; // Adjust path as necessary
-import Sidebar from "./Sidebar"; // Adjust path as necessary
-import './StudentDashboard.css'; // Optional for additional styles
+// import Navbar from "./pages/Navbar"; // Adjust path as necessary
+import Navbar from "../pages/Navbar";
+import Sidebar from "../Student/Sidebar"; // Adjust path as necessary
+import '../Student/StudentDashboard.css'; // Optional for additional styles
 
 const StudentDashboard = () => {
   return (
