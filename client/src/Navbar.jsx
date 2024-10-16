@@ -2,14 +2,13 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import './Navbar.css'; // Assuming you will create a separate CSS file for custom styles
+import "./Navbar.css"; // Create a separate CSS file for Navbar styles
 
-function Navbar() {
+const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear local storage or any authentication tokens
     localStorage.removeItem("user");
     navigate("/login"); // Redirect to login after logout
   };
@@ -17,26 +16,23 @@ function Navbar() {
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Search query:", searchQuery);
-    // Handle search logic, like filtering data or redirecting to a search results page
+    // Handle search logic
   };
 
   return (
-    <nav className="navbar bg-body-tertiary">
+    <nav className="navbar bg-body-tertiary fixed-top">
       <div className="container-fluid">
-        {/* Left: Logo and Brand Name in a Flex Container */}
-        <Link className="navbar-brand d-flex align-items-center" to="/student-dashboard">
+        <Link className="navbar-brand" to="/student-dashboard">
           <img
             src="https://w7.pngwing.com/pngs/996/190/png-transparent-deogiri-institute-of-engineering-and-management-studies-logo-brand-associate-professor-arogya-yoga-school-200-hour-yoga-teacher-training-blue-text-logo.png"
             alt="Logo"
-            width="120" // Adjust width as needed
-            height="50" // Adjust height as needed
+            width="90"
+            height="40"
             className="d-inline-block align-text-top"
           />
-          {/* Brand Name with Styles */}
-          <span className="brand-name">Mini Project Management</span>
+          Mini Project Management
         </Link>
 
-        {/* Center: Search Bar */}
         <form className="d-flex" onSubmit={handleSearch}>
           <input
             className="form-control me-2"
@@ -51,15 +47,13 @@ function Navbar() {
           </button>
         </form>
 
-        {/* Right: Profile Dropdown with SVG Icon */}
         <DropdownButton
           align="end"
           title={
             <div className="d-flex align-items-center">
-              {/* SVG Icon for Profile */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24" // Adjust size as needed
+                width="24"
                 height="24"
                 fill="currentColor"
                 className="bi bi-person-circle"
@@ -74,7 +68,7 @@ function Navbar() {
             </div>
           }
           id="dropdown-menu-align-right"
-          drop="down" // Optional: specify the direction of the dropdown
+          drop="down"
         >
           <Dropdown.Item as={Link} to="/profile">
             Settings
@@ -84,6 +78,6 @@ function Navbar() {
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
