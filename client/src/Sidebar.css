@@ -39,9 +39,9 @@
 .sidebar-item {
   display: block; /* Block display for full width */
   padding: 15px 20px; /* Increased padding for larger size */
-  color: #4b7559; /* Item color */
+  color: #40475c; /* Item color */
   text-decoration: none; /* Remove underline */
-  border-radius: 10px; /* Rounded corners */
+  border-radius: 200px; /* Rounded corners */
   transition: background-color 0.3s; /* Transition for hover effect */
   
   font-weight: bold; /* Make the text bold */
@@ -54,7 +54,8 @@
 } */
 
 .sidebar-item:hover {
-  background-color: #d2ddf0; 
+  background-color: #2f3d64;
+  color: rgb(174, 204, 224); 
 } 
 
 
