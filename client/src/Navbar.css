@@ -1,0 +1,16 @@
+.brand-name {
+  font-weight: bold; /* Make the text bold */
+  font-size: 1.5rem; /* Adjust font size */
+  margin-left: 10px; /* Space between logo and text */
+  color: #343a40; /* Dark text color */
+  text-decoration: none; /* Remove underline */
+}
+
+.navbar {
+  padding: 1rem; /* Add padding for better spacing */
+}
+
+.navbar .container-fluid {
+  display: flex;
+  align-items: center; /* Center align items vertically */
+}
