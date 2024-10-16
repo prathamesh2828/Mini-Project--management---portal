@@ -17,7 +17,8 @@ function Login() {
         console.log(result);
         if (result.data.status === "Success") {
           localStorage.setItem("user", JSON.stringify(result.data.user));
-          navigate("/home");
+          // Redirect to respective dashboard based on role
+          navigate(result.data.dashboard);
         } else {
           alert(result.data.message);
         }

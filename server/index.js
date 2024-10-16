@@ -8,13 +8,18 @@ app.use(cors());
 
 mongoose.connect("mongodb://127.0.0.1:27017/employee");
 
-// Login route
+// Login route with role-based redirect
 app.post("/login", (req, res) => {
-  const { email, password, role } = req.body; // Include role in the request body
-  EmployeeModel.findOne({ email: email, role: role }).then((user) => { // Check both email and role
+  const { email, password, role } = req.body; // Include role in the request
+  EmployeeModel.findOne({ email: email, role: role }).then((user) => { // Check email and role
     if (user) {
       if (user.password === password) {
-        res.json({ status: "Success", user });
+        // Return a URL for the dashboard based on role
+        if (user.role === 'guide') {
+          res.json({ status: "Success", user, dashboard: '/guide-dashboard' });
+        } else if (user.role === 'student') {
+          res.json({ status: "Success", user, dashboard: '/student-dashboard' });
+        }
       } else {
         res.json({ status: "Error", message: "The password is incorrect" });
       }
