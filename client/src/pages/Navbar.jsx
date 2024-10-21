@@ -85,7 +85,7 @@ const Navbar = () => {
           drop="down"
         >
           <Dropdown.Item as={Link} to="/profile">
-            Settings
+            Profile
           </Dropdown.Item>
           <Dropdown.Item onClick={handleLogout}>Log Out</Dropdown.Item>
         </DropdownButton>

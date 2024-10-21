@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -10,84 +9,87 @@ function Signup() {
   const [role, setRole] = useState(""); // New state for role
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/register", { name, email, password, role }) // Include role in the request
-      .then((result) => {
-        console.log(result);
-        navigate('/login');
-      })
-      .catch((err) => console.log(err));
+    try {
+      const response = await axios.post("http://localhost:3001/register", { name, email, password, role }); // Include role in the request
+      console.log(response);
+      navigate('/login');
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("An error occurred during registration. Please try again.");
+    }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
-      <div className="bg-white p-3 rounded w-25">
-        <h2>Register</h2>
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name">
-              <strong>Name</strong>
-            </label>
+    <div className="flex justify-center items-center min-h-screen bg-gray-200">
+      <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-50 text-gray-800 shadow-lg"> {/* Updated styling */}
+        <h1 className="text-2xl font-bold text-center">Register</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-1 text-sm">
+            <label htmlFor="name" className="block text-gray-600">Name</label>
             <input
               type="text"
               placeholder="Enter Name"
               autoComplete="off"
               name="name"
-              className="form-control rounded-0"
+              className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 text-gray-800 focus:border-violet-600"
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="email">
-              <strong>Email</strong>
-            </label>
+
+          <div className="space-y-1 text-sm">
+            <label htmlFor="email" className="block text-gray-600">Email</label>
             <input
               type="email"
               name="email"
               placeholder="Enter Email"
               autoComplete="off"
-              className="form-control rounded-0"
+              className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 text-gray-800 focus:border-violet-600"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="password">
-              <strong>Password</strong>
-            </label>
+
+          <div className="space-y-1 text-sm">
+            <label htmlFor="password" className="block text-gray-600">Password</label>
             <input
               type="password"
               placeholder="Enter Password"
               name="password"
-              className="form-control rounded-0"
+              className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 text-gray-800 focus:border-violet-600"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="role">
-              <strong>Register as</strong>
-            </label>
+
+          <div className="space-y-1 text-sm">
+            <label htmlFor="role" className="block text-gray-600">Register as</label>
             <select
-              className="form-control rounded-0"
+              className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 text-gray-800 focus:border-violet-600"
               name="role"
               onChange={(e) => setRole(e.target.value)}
+              required
             >
               <option value="">Select Role</option>
               <option value="guide">Guide</option>
               <option value="student">Student</option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary w-100 rounded-0">
+
+          <button
+            type="submit"
+            className="block w-full p-3 text-center rounded-md bg-violet-600 text-gray-50 hover:bg-violet-700 transition duration-200"
+          >
             Register
           </button>
         </form>
 
-        <p>Already have an account?</p>
+        <p className="mt-4 text-center text-sm text-gray-600">Already have an account?</p>
         <Link
           to="/login"
-          className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none"
+          className="block mt-2 text-center border border-gray-300 bg-gray-100 text-gray-700 rounded py-2 hover:bg-gray-200 transition duration-200"
         >
           Login
         </Link>
@@ -97,3 +99,4 @@ function Signup() {
 }
 
 export default Signup;
+  

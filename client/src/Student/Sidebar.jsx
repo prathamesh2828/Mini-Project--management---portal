@@ -17,8 +17,8 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/ManageTask" className="sidebar-item">
-            <i className="bi bi-list-check"></i> Manage Task
+          <Link to="/manage-project" className="sidebar-item">
+            <i className="bi bi-list-check"></i> Manage Project
           </Link>
         </li>
         <li>

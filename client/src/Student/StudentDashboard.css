@@ -2,7 +2,8 @@
   margin-left: 350px; /* Adjust to the sidebar width */
   margin-top: 56px; /* Adjust to the navbar height */
   padding: 20px; /* Padding for content */
-  background-color: #ffffff; /* Background color for content area */
+  background-color: #cfd1d1; /* Background color for content area */
   height: calc(100vh - 56px); /* Full height minus navbar height */
   overflow-y: auto; /* Enable vertical scrolling */
 }
+
