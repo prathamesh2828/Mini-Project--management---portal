@@ -7,7 +7,7 @@ const GreetUser = () => {
 
   const handleClick = () => {
     setVisible(false); // Start the animation to hide
-    setTimeout(() => navigate("/manage-project"), 500); // Redirect after the animation ends (500ms)
+    setTimeout(() => navigate("/tasks-assigned"), 500); // Redirect after the animation ends (500ms)
   };
 
   return (
