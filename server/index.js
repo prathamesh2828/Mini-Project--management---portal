@@ -87,6 +87,23 @@ app.get("/teams", async (req, res) => {
     res.json({ status: "Error", message: err.message });
   }
 });
+// Route to fetch user profile based on role
+app.post("/api/getUserProfile", (req, res) => {
+  const { userId, role } = req.body;
+
+  // Use appropriate model based on role
+  const model = role === 'guide' ? GuideModel : StudentModel;
+
+  model.findById(userId).then((user) => {
+    if (user) {
+      res.json({ status: "Success", user });
+    } else {
+      res.json({ status: "Error", message: "User not found" });
+    }
+  }).catch(err => res.json({ status: "Error", message: err.message }));
+});
+
+
 
 app.listen(3001, () => {
   console.log("server is running");
