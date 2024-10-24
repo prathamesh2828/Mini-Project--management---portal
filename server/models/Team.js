@@ -1,18 +1,22 @@
 const mongoose = require('mongoose');
 
 const TeamSchema = new mongoose.Schema({
-  grp_id: { type: String, unique: true }, // Unique group ID
+  grp_no: { type: Number, unique: true }, 
   grp_name: String,
-  prj_name: String,
-  students: [{
+
+  gd_id: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Student' // List of students in the team
+    ref: 'Guide' 
   }],
-  guide: {
+  prj_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Guide', // Guide associated with the team
-  }
+    ref: 'Projects', 
+  },
+  students: [{ // Ensure students array is populated
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Student'
+  }]
 });
 
-const TeamModel = mongoose.model('Team', TeamSchema);
+const TeamModel = mongoose.model('Teams', TeamSchema);
 module.exports = TeamModel;
