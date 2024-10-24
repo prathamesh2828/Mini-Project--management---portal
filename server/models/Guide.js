@@ -5,7 +5,10 @@ const GuideSchema = new mongoose.Schema({
   email: { type: String, unique: true }, // Ensure email is unique
   password: String,
   role: { type: String, default: 'guide' }, // Default role for Guide
-  // Additional fields specific to Guide if necessary
+  teams: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team' // Reference to the Team(s) they guide
+  }]
 });
 
 const GuideModel = mongoose.model('Guide', GuideSchema);

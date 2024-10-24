@@ -28,11 +28,12 @@ function Profile() {
           <div className="my-2 space-y-1">
             <h2 className="text-3xl font-bold text-gray-800">{userData.name}</h2>
             <p className="text-lg text-gray-600">Class: <span className="font-semibold">{userData.class}</span></p>
-            <p className="text-lg text-gray-600">Branch: <span className="font-semibold">{userData.branch}</span></p>
-            <p className="text-sm text-gray-500">Guide: <span className="font-medium">{userData.guideName}</span></p>
-            <p className="text-sm text-gray-500">Team: <span className="font-medium">{userData.teamName}</span></p>
-            <p className="text-sm text-gray-500">Project: <span className="font-medium">{userData.projectName}</span></p>
-            <p className="text-sm text-gray-500">Description: <span className="font-medium">{userData.projectDescription}</span></p>
+            <p className="text-lg text-gray-600">Division: <span className="font-semibold">{userData.div}</span></p>
+            <p className="text-lg text-gray-600">Email: <span className="font-semibold">{userData.email}</span></p>
+            <p className="text-sm text-gray-500">Student id: <span className="font-medium">{userData.std_id}</span></p>
+            <p className="text-sm text-gray-500">Group Number: <span className="font-medium">{userData.grp_no}</span></p>
+            {/* <p className="text-sm text-gray-500">Project: <span className="font-medium">{userData.projectName}</span></p>
+            <p className="text-sm text-gray-500">Description: <span className="font-medium">{userData.projectDescription}</span></p> */}
           </div>
           <button
             onClick={() => console.log('Edit Profile clicked')}

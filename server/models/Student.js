@@ -9,7 +9,9 @@ const StudentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team', // Reference to the Team they belong to
   },
-  // Additional fields specific to Student if necessary
+  class: String,
+  div: String,
+  grp_no: Number
 });
 
 const StudentModel = mongoose.model('Student', StudentSchema);
