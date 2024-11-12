@@ -1,6 +1,7 @@
 import React from 'react';
 import GuideSidebar from './GuideSidebar';
 import Navbar from '../pages/Navbar';
+import './GuideDashboard.css';
 
 function GuideDashboard() {
   // Sample data for teams and their projects
@@ -44,10 +45,10 @@ function GuideDashboard() {
         <GuideSidebar />
 
         {/* Main content area */}
-        <div className="flex-1 ml-[360px] mt-[56px] p-6 overflow-auto">
+        <div className="flex-1 ml-[360px] mt-[72px] p-6 overflow-auto"> {/* Increased margin-top to 72px */}
           {/* Welcome Message Card */}
-          <div className="bg-white border border-gray-300 rounded-lg p-6 mb-6 shadow-lg transition duration-300 hover:shadow-xl">
-            <h1 className="text-2xl font-bold text-gray-800">Welcome to the Guide Dashboard</h1>
+          <div className="bg-white border border-gray-300 rounded-lg p-8 mb-6 shadow-lg transition duration-300 hover:shadow-xl greet"> {/* Increased padding */}
+            <h1 className="text-3xl font-bold text-gray-800">Welcome to the Guide Dashboard</h1> {/* Increased font size */}
             <p className="text-gray-600 mt-2">
               Here you can manage your teams and their projects efficiently.
             </p>

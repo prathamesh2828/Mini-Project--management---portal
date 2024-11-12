@@ -1,0 +1,45 @@
+/* Welcome Message Card (greet class) */
+.greet {
+  background: linear-gradient(to right, #ffffff, #f0f4ff);
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.greet:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.greet h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1e293b;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.greet p {
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+  .greet {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .greet h1 {
+    font-size: 1.5rem;
+  }
+
+  .greet p {
+    font-size: 0.9rem;
+  }
+}
