@@ -1,109 +1,103 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const GuideModel = require("./models/Guide");
-const StudentModel = require("./models/Student");
-const TeamModel = require("./models/Team"); // Import Team model
-const app = express();
 
+// Import models (update with correct paths to your models)
+const GuideModel = require("./models/GuideModel");
+const StudentModel = require("./models/StudentModel");
+const TeamModel = require("./models/TeamModel");
+
+const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/project_portal"); // Use a specific DB name
+// MongoDB connection
+mongoose.connect("mongodb://127.0.0.1:27017/mini_project_portal", { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
-// Login route with role-based redirect
+// Routes
+app.use("/login", require("./routes/login"));
+app.use("/register", require("./routes/register"));
+
+// Login route
 app.post("/login", (req, res) => {
-  const { email, password, role } = req.body;
+  const { role, email, password } = req.body;
 
-  // Determine whether to look for a guide or student based on role
+  // Determine the model based on the user's role
   const model = role === 'guide' ? GuideModel : StudentModel;
 
-  model.findOne({ email: email }).then((user) => {
-    if (user) {
-      if (user.password === password) {
-        // Return a URL for the dashboard based on role along with user data
+  model.findOne({ email: email })
+    .then(user => {
+      if (user && user.password === password) {
         const dashboard = role === 'guide' ? '/guide-dashboard' : '/student-dashboard';
         res.json({ status: "Success", user, dashboard });
       } else {
-        res.json({ status: "Error", message: "The password is incorrect" });
+        res.json({ status: "Error", message: "Invalid email or password" });
       }
-    } else {
-      res.json({ status: "Error", message: "No user found with the provided role and email" });
-    }
-  }).catch(err => res.json({ status: "Error", message: err.message }));
+    })
+    .catch(err => res.json({ status: "Error", message: err.message }));
 });
 
 // Register route
 app.post("/register", (req, res) => {
   const { role, ...userData } = req.body;
 
-  // Determine whether to create a guide or student based on role
   const model = role === 'guide' ? GuideModel : StudentModel;
 
   model.create(userData)
-    .then((user) => res.json({ status: "Success", user }))
-    .catch((err) => res.json({ status: "Error", message: err.message }));
+    .then(user => res.json({ status: "Success", user }))
+    .catch(err => res.json({ status: "Error", message: err.message }));
 });
 
 // Team creation route
-// Team creation route
 app.get("/guide/:gd_id/teams", async (req, res) => {
   const { gd_id } = req.params;
+  const guideId = parseInt(gd_id, 10);
 
-  // Attempt to cast gd_id into an integer
-  const guideId = parseInt(gd_id, 10); // 10 is the radix for decimal numbers
-
-  // Check if the conversion was successful (NaN means it's not a valid integer)
   if (isNaN(guideId)) {
-    return res.status(400).json({
-      status: "Error",
-      message: "Invalid guide ID format. It must be an integer."
-    });
+    return res.status(400).json({ status: "Error", message: "Invalid guide ID format. It must be an integer." });
   }
 
   try {
-    const teams = await TeamModel.find({ gd_id: guideId })
-      .populate("students") // Populate student details if needed
-      .exec();
+    const teams = await TeamModel.find({ gd_id: guideId }).populate("students").exec();
 
     if (teams.length === 0) {
-      return res.json({ status: "Success", message: "No teams found for this guide." });
+      res.json({ status: "Success", message: "No teams found for this guide." });
+    } else {
+      res.json({ status: "Success", teams });
     }
-
-    res.json({ status: "Success", teams });
   } catch (err) {
     res.status(500).json({ status: "Error", message: err.message });
   }
 });
 
-
-
-// Route to fetch user profile based on role
+// User profile route
 app.post("/api/getUserProfile", (req, res) => {
   const { userId, role } = req.body;
 
-  // Use appropriate model based on role
   const model = role === 'guide' ? GuideModel : StudentModel;
 
-  model.findById(userId).then((user) => {
-    if (user) {
-      res.json({ status: "Success", user });
-    } else {
-      res.json({ status: "Error", message: "User not found" });
-    }
-  }).catch(err => res.json({ status: "Error", message: err.message }));
+  model.findById(userId)
+    .then(user => {
+      if (user) {
+        res.json({ status: "Success", user });
+      } else {
+        res.json({ status: "Error", message: "User not found" });
+      }
+    })
+    .catch(err => res.json({ status: "Error", message: err.message }));
 });
 
+// Another team route with populated fields
+app.get("/guide/:guideId/teamsWithDetails", async (req, res) => {
+  const { guideId } = req.params;
 
-app.get("/guide/:guideId/teams", async (req, res) => {
   try {
-    const { guideId } = req.params;
-
-    // Find teams linked to the specified guide ID and populate related fields
     const teams = await TeamModel.find({ guide: guideId })
-      .populate('guide', 'name email')   // Populate guide details
-      .populate('students', 'name email') // Populate student details
-      .populate('prj_id', 'name description'); // Populate project details
+      .populate("guide", "name email")
+      .populate("students", "name email")
+      .populate("prj_id", "name description");
 
     res.json({ status: "Success", teams });
   } catch (err) {
@@ -111,6 +105,8 @@ app.get("/guide/:guideId/teams", async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log("server is running");
+// Start server
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
