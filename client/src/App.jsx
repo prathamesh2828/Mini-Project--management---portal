@@ -27,7 +27,7 @@ function App() {
         <Route path="/manage-project" element={<ManageProject />} />
         <Route path="/manage-files" element={<ManageFiles />} />
         <Route path="/team" element={<Team />} />
-        <Route path="/teams" element={<ViewTeam />} />
+        <Route path="/teams" element={<ViewTeam gd_id={3} />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/student-messages" element={<StudentMessages />} />
         <Route path="/archive" element={<Trash />} />

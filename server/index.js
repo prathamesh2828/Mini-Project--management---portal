@@ -46,47 +46,38 @@ app.post("/register", (req, res) => {
 });
 
 // Team creation route
-app.post("/team", async (req, res) => {
-  const { grp_id, grp_name, prj_name, guideId, studentIds } = req.body;
+// Team creation route
+app.get("/guide/:gd_id/teams", async (req, res) => {
+  const { gd_id } = req.params;
 
-  try {
-    // Create the team
-    const team = await TeamModel.create({
-      grp_id,
-      grp_name,
-      prj_name,
-      guide: guideId,
-      students: studentIds // Array of student IDs
+  // Attempt to cast gd_id into an integer
+  const guideId = parseInt(gd_id, 10); // 10 is the radix for decimal numbers
+
+  // Check if the conversion was successful (NaN means it's not a valid integer)
+  if (isNaN(guideId)) {
+    return res.status(400).json({
+      status: "Error",
+      message: "Invalid guide ID format. It must be an integer."
     });
-
-    // Update guide to link to this team
-    await GuideModel.findByIdAndUpdate(guideId, {
-      $push: { teams: team._id }
-    });
-
-    // Update students to link them to this team
-    await StudentModel.updateMany(
-      { _id: { $in: studentIds } },
-      { $set: { team: team._id } }
-    );
-
-    res.json({ status: "Success", team });
-  } catch (err) {
-    res.json({ status: "Error", message: err.message });
   }
-});
 
-// Fetch teams (optional route for retrieving team data)
-app.get("/teams", async (req, res) => {
   try {
-    const teams = await TeamModel.find()
-      .populate('guide') // Populate guide details
-      .populate('students'); // Populate student details
+    const teams = await TeamModel.find({ gd_id: guideId })
+      .populate("students") // Populate student details if needed
+      .exec();
+
+    if (teams.length === 0) {
+      return res.json({ status: "Success", message: "No teams found for this guide." });
+    }
+
     res.json({ status: "Success", teams });
   } catch (err) {
-    res.json({ status: "Error", message: err.message });
+    res.status(500).json({ status: "Error", message: err.message });
   }
 });
+
+
+
 // Route to fetch user profile based on role
 app.post("/api/getUserProfile", (req, res) => {
   const { userId, role } = req.body;
@@ -104,6 +95,21 @@ app.post("/api/getUserProfile", (req, res) => {
 });
 
 
+app.get("/guide/:guideId/teams", async (req, res) => {
+  try {
+    const { guideId } = req.params;
+
+    // Find teams linked to the specified guide ID and populate related fields
+    const teams = await TeamModel.find({ guide: guideId })
+      .populate('guide', 'name email')   // Populate guide details
+      .populate('students', 'name email') // Populate student details
+      .populate('prj_id', 'name description'); // Populate project details
+
+    res.json({ status: "Success", teams });
+  } catch (err) {
+    res.json({ status: "Error", message: err.message });
+  }
+});
 
 app.listen(3001, () => {
   console.log("server is running");
