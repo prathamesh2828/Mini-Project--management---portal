@@ -3,18 +3,19 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 // Import models (update with correct paths to your models)
-const GuideModel = require("./models/GuideModel");
-const StudentModel = require("./models/StudentModel");
-const TeamModel = require("./models/TeamModel");
+const GuideModel = require("./models/Guide");
+const StudentModel = require("./models/Student");
+const TeamModel = require("./models/Team");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect("mongodb://127.0.0.1:27017/mini_project_portal", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb://127.0.0.1:27017/project_portal")
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.error("MongoDB connection error:", err));
+
 
 // Routes
 app.use("/login", require("./routes/login"));
