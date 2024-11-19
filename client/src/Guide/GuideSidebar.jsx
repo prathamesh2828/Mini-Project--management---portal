@@ -22,8 +22,8 @@ const GuideSidebar = () => {
           </Link>
         </li> */}
         <li>
-          <Link to="/teams" className="sidebar-item">
-            <i className="bi bi-people"></i> Teams
+          <Link to="/addtasks" className="sidebar-item">
+            <i className="bi bi-people"></i> Add Tasks
           </Link>
         </li>
         <li>
