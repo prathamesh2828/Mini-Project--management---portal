@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Make sure axios is installed
 
 function AddTask({ isOpen, onClose, onAddTask }) {
   const [taskName, setTaskName] = useState('');
   const [taskDetails, setTaskDetails] = useState('');
   const [deadline, setDeadline] = useState('');
 
-  const handleAddTask = () => {
+  const handleAddTask = async () => {
     if (taskName.trim() === '' || taskDetails.trim() === '' || deadline.trim() === '') {
       alert('Please fill in all fields.');
       return;
     }
 
-    onAddTask({ taskName, taskDetails, deadline });
-    // Clear input fields
-    setTaskName('');
-    setTaskDetails('');
-    setDeadline('');
-    onClose();
+    try {
+      // Create a task object
+      const newTask = { taskName, taskDetails, deadline };
+
+      // Send POST request to backend
+      const response = await axios.post('/api/tasks', newTask); // Adjust the URL to match your backend route
+
+      if (response.status === 201) {
+        alert('Task added successfully!');
+        onAddTask(response.data.task); // Pass the newly added task back to the parent component if needed
+        // Clear input fields
+        setTaskName('');
+        setTaskDetails('');
+        setDeadline('');
+        onClose();
+      } else {
+        alert('Failed to add task');
+      }
+    } catch (error) {
+      console.error('Error adding task:', error);
+      alert('There was an error adding the task.');
+    }
   };
 
   if (!isOpen) return null; // Don't render if not open

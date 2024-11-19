@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 
 const ProjectSchema = new mongoose.Schema({
-  prj_id :Number,
+  prj_id: { type: Number, unique: true },
   prj_name: String,
-  description: { type: String },
-  gd_id: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Guide' // Reference to the Team(s) they guide
-  }]
+  description: String,
+  gd_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Guide' }],
 });
 
 const ProjectModel = mongoose.model('Projects', ProjectSchema);

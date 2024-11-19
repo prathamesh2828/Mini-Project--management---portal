@@ -12,18 +12,30 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/register", { name, email, password, role }); // Include role in the request
-      console.log(response);
-      navigate('/login');
+      // Send POST request to register
+      const response = await axios.post("http://localhost:3001/auth/register", { name, email, password, role });
+
+      if (response.data.status === "Success") {
+        alert("Registration successful! Please log in.");
+        navigate('/login'); // Redirect to login page after successful registration
+      } else {
+        alert(response.data.message); // Show error message from the backend
+      }
     } catch (error) {
       console.error("Registration error:", error);
-      alert("An error occurred during registration. Please try again.");
+      // Check for detailed error message
+      if (error.response) {
+        console.error("Error Response:", error.response.data);
+        alert(`An error occurred: ${error.response.data.message}`);
+      } else {
+        alert("An error occurred during registration. Please try again.");
+      }
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-200">
-      <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-50 text-gray-800 shadow-lg"> {/* Updated styling */}
+      <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-50 text-gray-800 shadow-lg">
         <h1 className="text-2xl font-bold text-center">Register</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-1 text-sm">
@@ -99,4 +111,3 @@ function Signup() {
 }
 
 export default Signup;
-  
