@@ -1,0 +1,19 @@
+.navbar {
+  z-index: 1030; /* Ensure navbar is above other elements */
+  background-color: #f8f9fa; /* Same background color as the sidebar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.container-fluid {
+  display: flex;
+  align-items: center; /* Center items vertically */
+}
+
+.navbar-brand {
+  display: flex; /* Flex display for logo and title */
+  align-items: center; /* Center vertically */
+  font-weight: bold; /* Bold title */
+  font-size: 30px;
+  color: rgb(124, 121, 143);
+}
+

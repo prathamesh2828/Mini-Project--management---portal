@@ -1,0 +1,69 @@
+.sidebar {
+  width: 360px; /* Width of the sidebar */
+  height: calc(100vh - 56px); /* Full height minus the navbar height */
+  background-color: #f8f9fa; /* Light background */
+  position: fixed; /* Keep fixed to the left */
+  top: 56px; /* Starts just below the navbar (adjust if navbar height changes) */
+  left: 0; /* Align to left */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px; /* Padding for content */
+  display: flex;
+  flex-direction: column; /* Vertical layout */
+  z-index: 1; /* Ensures it's above other content */
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center; /* Center vertically */
+  margin-bottom: 30px; /* Space between header and links */
+}
+
+.sidebar-logo {
+  width: 40px; /* Adjust logo size */
+  height: 40px; /* Adjust logo size */
+  margin-right: 10px; /* Space between logo and title */
+}
+
+.sidebar-title {
+  font-size: 1.5rem; /* Title size */
+  font-weight: bold; /* Title boldness */
+  color: #343a40; /* Title color */
+}
+
+.sidebar-list {
+  list-style: NONE; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+  margin-top: 40px;
+}
+
+.sidebar-item {
+  display: block; /* Block display for full width */
+  padding: 15px 20px; /* Increased padding for larger size */
+  color: #40475c; /* Item color */
+  text-decoration: none; /* Remove underline */
+  border-radius: 200px; /* Rounded corners */
+  transition: background-color 0.3s; /* Transition for hover effect */
+  
+  font-weight: bold; /* Make the text bold */
+  font-size: 25px; /* Increase font size */
+  font-family: 'Arial', sans-serif; /* Apply a good font */
+}
+
+/* .sidebar-item:hover {
+  background-color: #f0f0f0; 
+} */
+
+.sidebar-item:hover {
+  background-color: #2f3d64;
+  color: rgb(174, 204, 224); 
+} 
+
+
+.sidebar-settings {
+  margin-top: auto; /* Push to bottom */
+  margin-top: auto; /* Bottom spacing */
+}
+
+.sidebar-settings .sidebar-item {
+  font-weight: bold; /* Bold the settings item */
+}
