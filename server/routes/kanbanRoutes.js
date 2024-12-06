@@ -1,5 +1,5 @@
 const express = require("express");
-const { addKanban, getKanbans, updateTaskStatus } = require("../controllers/kanbanController");
+const { addKanban, getKanbans, updateTaskStatus,getTaskStats } = require("../controllers/kanbanController");
 
 const router = express.Router();
 
@@ -11,5 +11,5 @@ router.put("/kanbans", updateTaskStatus);
 
 // Route to add a new kanban task
 router.post("/kanbans", addKanban);
-
+router.get("/kanbans/stats", getTaskStats);
 module.exports = router;
