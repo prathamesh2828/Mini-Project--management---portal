@@ -31,18 +31,10 @@ const GuideSidebar = () => {
             <i className="bi bi-chat-dots"></i> Messages
           </Link>
         </li>
-        <li>
-          <Link to="/archive" className="sidebar-item">
-            <i className="bi bi-archive"></i> Trash
-          </Link>
-        </li>
+     
       </ul>
 
-      <div className="sidebar-settings">
-        <Link to="/settings" className="sidebar-item">
-          <i className="bi bi-gear"></i> Settings
-        </Link>
-      </div>
+     
     </div>
   );
 };

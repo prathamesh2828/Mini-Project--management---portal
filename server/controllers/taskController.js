@@ -1,36 +1,52 @@
 const TaskModel = require('../models/Task');
-const StudentModel = require('../models/Student');
-const ProjectModel = require('../models/Projects');
+const fs = require('fs');
+const path = require('path');
 
-exports.createTask = async (req, res) => {
-  const { taskName, taskDetails, deadline, teamId } = req.body;
-
-  // Validate incoming data
-  if (!taskName || !taskDetails || !deadline || !teamId) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'All fields are required',
-    });
-  }
+// Update task status and file
+exports.updateTask = async (req, res) => {
+  const { status, completedDate } = req.body;
+  const taskId = req.params.id;
 
   try {
-    const newTask = new TaskModel({
-      taskName,
-      taskDetails,
-      deadline,
-      prj_id: teamId,
-    });
+    const task = await TaskModel.findByIdAndUpdate(
+      taskId,
+      { status, completedDate },
+      { new: true }
+    );
 
-    const savedTask = await newTask.save();
-
-    res.status(201).json({ status: 'Success', task: savedTask });
+    res.status(200).json({ status: 'Success', task });
   } catch (error) {
-    console.error('Error creating task:', error.message);
+    console.error('Error updating task:', error.message);
     res.status(500).json({
       status: 'Error',
-      message: 'Failed to create task',
+      message: 'Failed to update task',
       error: error.message,
     });
   }
 };
 
+// Handle file upload
+exports.uploadFile = async (req, res) => {
+  const taskId = req.params.id;
+  const file = req.files.file;
+
+  try {
+    const uploadPath = path.join(__dirname, '../uploads/', file.name);
+    await file.mv(uploadPath);
+
+    const task = await TaskModel.findByIdAndUpdate(
+      taskId,
+      { fileUrl: `/uploads/${file.name}` },
+      { new: true }
+    );
+
+    res.status(200).json({ status: 'Success', task });
+  } catch (error) {
+    console.error('Error uploading file:', error.message);
+    res.status(500).json({
+      status: 'Error',
+      message: 'File upload failed',
+      error: error.message,
+    });
+  }
+};

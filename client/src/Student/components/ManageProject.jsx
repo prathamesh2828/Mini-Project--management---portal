@@ -62,22 +62,19 @@ function ManageProject() {
     const updatedTasks = tasks.map((task) =>
       task._id === taskId ? { ...task, status: newStatus } : task
     );
-    setTasks(updatedTasks);
-
+    setTasks(updatedTasks); // Optimistically update the UI
+  
     try {
-      // Update status in the backend
-      const taskToUpdate = tasks.find((task) => task._id === taskId);
-      if (taskToUpdate) {
-        await axios.post(`http://localhost:3001/api/kanbans`, {
-          ...taskToUpdate,
-          status: newStatus,
-        });
-      }
+      await axios.put(`http://localhost:3001/api/kanbans`, {
+        id: taskId,
+        status: newStatus,
+      });
     } catch (error) {
       console.error("Error updating task status:", error);
       alert("Failed to update task status. Please try again.");
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">

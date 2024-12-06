@@ -1,0 +1,31 @@
+/* Home.css */
+.home {
+  background-image: url('./assets/Cover.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  font-size: 2rem;
+}
+.get-started-btn {
+  position: absolute; /* Allows positioning relative to the parent */
+  bottom: 110px;       /* Adjust distance from the bottom */
+  left: 140px;        /* Adjust distance from the right */
+  padding: 10px 20px;
+  background-color: #3A5AFF; /* Blue color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 6px rgba(77, 76, 76, 0.2); /* Optional for styling */
+  transition: background-color 0.3s ease;  /* Smooth hover effect */
+}
+
+.get-started-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}

@@ -1,9 +1,44 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Assuming you're using React Router
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const GreetUser = () => {
   const [visible, setVisible] = useState(true); // To manage the visibility of the component
-  const navigate = useNavigate(); // Hook to navigate to other pages
+  const [projectName, setProjectName] = useState(""); // To store the project name
+  const navigate = useNavigate();
+
+  // Fetch the user's project name
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem("user")); // Assuming user data is stored in localStorage
+        if (!storedUser) {
+          console.error("No user data found.");
+          return;
+        }
+
+        const response = await fetch("http://localhost:3001/api/getUserProfile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: storedUser._id, role: storedUser.role }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.status === "Success" && storedUser.role === "student") {
+          setProjectName(data.user.prj_name || "Welcome!"); // Default message if no project name
+        } else {
+          console.error("Error fetching user data:", data.message);
+        }
+      } catch (err) {
+        console.error("Error fetching project name:", err.message);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleClick = () => {
     setVisible(false); // Start the animation to hide
@@ -11,12 +46,12 @@ const GreetUser = () => {
   };
 
   return (
-    <div className={`p-6 transition-opacity duration-500 ${!visible ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`p-6 transition-opacity duration-500 ${!visible ? "opacity-0" : "opacity-100"}`}>
       <div className="p-8 py-12 bg-gray-500 dark:text-gray-50 rounded-lg shadow-lg">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center justify-between">
             <h2 className="text-center text-6xl tracking-tighter font-bold">
-              :) Hello There!! <br className="sm:hidden" />
+              {projectName} <br className="sm:hidden" />
             </h2>
             <button
               onClick={handleClick}

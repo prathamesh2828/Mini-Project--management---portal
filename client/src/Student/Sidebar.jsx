@@ -31,18 +31,9 @@ const Sidebar = () => {
             <i className="bi bi-chat-dots"></i> Message
           </Link>
         </li>
-        <li>
-          <Link to="/trash" className="sidebar-item">
-            <i className="bi bi-trash"></i> Trash
-          </Link>
-        </li>
+        
       </ul>
 
-      <div className="sidebar-settings">
-        <Link to="/settings" className="sidebar-item">
-          <i className="bi bi-gear"></i> Settings
-        </Link>
-      </div>
     </div>
   );
 };

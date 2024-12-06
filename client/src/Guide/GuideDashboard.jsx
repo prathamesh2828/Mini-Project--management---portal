@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../pages/Navbar';
 import GuideSidebar from './GuideSidebar';
 
-import './GuideDashboard.css'
+import './GuideDashboard.css';
 
-// Sample data for teams with member avatars
 const teamsData = [
   {
     name: 'Team Alpha',
@@ -15,7 +14,6 @@ const teamsData = [
       { name: 'Bob', imgSrc: 'https://randomuser.me/api/portraits/men/0.jpg' },
       { name: 'Charlie', imgSrc: 'https://randomuser.me/api/portraits/men/1.jpg' },
     ],
-    tasks: [],
   },
   {
     name: 'Team Beta',
@@ -26,55 +24,41 @@ const teamsData = [
       { name: 'Eve', imgSrc: 'https://randomuser.me/api/portraits/women/1.jpg' },
       { name: 'Frank', imgSrc: 'https://randomuser.me/api/portraits/men/3.jpg' },
     ],
-    tasks: [],
-  },
-  {
-    name: 'Team Gamma',
-    project: 'Project C',
-    status: 'Pending',
-    members: [
-      { name: 'Grace', imgSrc: 'https://randomuser.me/api/portraits/women/2.jpg' },
-      { name: 'Heidi', imgSrc: 'https://randomuser.me/api/portraits/women/3.jpg' },
-      { name: 'Ivan', imgSrc: 'https://randomuser.me/api/portraits/men/4.jpg' },
-    ],
-    tasks: [],
   },
 ];
 
 function GuideDashboard() {
   const [teams, setTeams] = useState(teamsData);
-  const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
-  const [currentTeamIndex, setCurrentTeamIndex] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [loadingTasks, setLoadingTasks] = useState(true);
 
-  // Function to handle opening the AddTask modal for a specific team
-  const openAddTaskModal = (teamIndex) => {
-    setCurrentTeamIndex(teamIndex);
-    setIsAddTaskOpen(true);
-  };
+  // Fetch tasks from backend
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/tasks'); // Replace with your API endpoint
+        if (response.ok) {
+          const data = await response.json();
+          setTasks(data.tasks);
+        } else {
+          console.error('Failed to fetch tasks');
+        }
+      } catch (error) {
+        console.error('Error fetching tasks:', error.message);
+      } finally {
+        setLoadingTasks(false);
+      }
+    };
 
-  // Function to handle adding a new task to the selected team
-  const handleAddTask = (newTask) => {
-    if (currentTeamIndex === null) return;
-
-    const updatedTeams = [...teams];
-    updatedTeams[currentTeamIndex].tasks.push(newTask);
-
-    setTeams(updatedTeams);
-    setIsAddTaskOpen(false);
-  };
+    fetchTasks();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-white">
-      {/* Navbar (fixed at the top) */}
       <Navbar />
-
       <div className="flex">
-        {/* Sidebar */}
         <GuideSidebar />
-
-        {/* Main content area */}
         <div className="flex-1 ml-[360px] mt-[72px] p-6 overflow-auto">
-          {/* Welcome Message Card */}
           <div className="bg-white p-6 rounded-md shadow-lg mb-6 max-w-md w-full">
             <h1 className="text-xl font-bold mb-4">Welcome to the Guide Dashboard</h1>
             <p className="text-gray-600">
@@ -107,8 +91,6 @@ function GuideDashboard() {
                     {team.status}
                   </span>
                 </p>
-
-                {/* Team Members */}
                 <div className="bg-gray-50 p-3 rounded-md">
                   <h4 className="text-gray-700 font-semibold mb-2">Team Members</h4>
                   <div className="flex flex-row flex-wrap justify-center">
@@ -123,31 +105,42 @@ function GuideDashboard() {
                       </div>
                     ))}
                   </div>
-                  {/* The "Assign Task" button is removed now */}
-                  {/* Display Tasks */}
-                  {team.tasks.length > 0 && (
-                    <div className="mt-4">
-                      <h4 className="text-gray-700 font-semibold mb-2">Assigned Tasks</h4>
-                      <ul className="space-y-1">
-                        {team.tasks.map((task, taskIdx) => (
-                          <li
-                            key={taskIdx}
-                            className="text-gray-800 bg-white rounded-md p-2 shadow-sm"
-                          >
-                            <strong>{task.taskName}</strong>: {task.taskDetails} - <span className="text-gray-500">Due: {task.deadline}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Tasks Section */}
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-6">Assigned Tasks</h2>
+            {loadingTasks ? (
+              <p className="text-center text-gray-500">Loading tasks...</p>
+            ) : tasks.length === 0 ? (
+              <p className="text-center text-gray-500">No tasks assigned yet.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {tasks.map((task) => (
+                  <div
+                    key={task._id}
+                    className="bg-white shadow-lg rounded-xl overflow-hidden"
+                  >
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-4">{task.taskName}</h3>
+                      <p className="text-gray-600 mb-4">{task.taskDetails}</p>
+                      <p className="text-sm text-gray-500">
+                        <strong>Deadline:</strong> {task.deadline.substring(0, 10)}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        <strong>Status:</strong> {task.status || 'Pending'}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-
-      
     </div>
   );
 }

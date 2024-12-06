@@ -81,6 +81,8 @@ const getKanbans = async (req, res) => {
 };
 
 // Update task status
+// Update task status
+// Update task status
 const updateTaskStatus = async (req, res) => {
   const { id, status } = req.body;
   try {
@@ -98,6 +100,10 @@ const updateTaskStatus = async (req, res) => {
     res.status(500).json({ message: "Error updating task status", error: err.message });
   }
 };
+
+
+
+
 
 // Delete task
 const deleteKanban = async (req, res) => {

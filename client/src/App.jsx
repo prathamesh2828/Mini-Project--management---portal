@@ -14,10 +14,12 @@ import ManageProject from "./Student/components/ManageProject";
 import ManageFiles from "./Student/components/ManageFiles";
 import Profile from "./pages/Profile";
 import StudentMessages from "./Student/components/StudentMessages";
+import Home from './Home'
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />

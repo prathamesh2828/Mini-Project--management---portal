@@ -2,21 +2,25 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const authRoutes = require("./routes/authRoutes"); // Auth routes
-const userRoutes = require("./routes/userRoutes"); // User routes
-const kanbanRoutes = require("./routes/kanbanRoutes"); // Kanban routes
-const taskRoutes = require("./routes/taskRoutes")
+const fileUpload = require('express-fileupload');  
+
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const kanbanRoutes = require("./routes/kanbanRoutes");
+const taskRoutes = require("./routes/taskRoutes");  // Import the task routes
+
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json()); // Use JSON parser middleware for POST requests
+app.use(bodyParser.json());
+app.use(fileUpload());  
 
 // Routes
-app.use("/api",taskRoutes)
-app.use("/auth", authRoutes); // All routes in authRoutes.js will be prefixed with /auth
-app.use("/api", userRoutes); // All routes in userRoutes.js will be prefixed with /user
-app.use('/api', kanbanRoutes); // All routes in kanbanRoutes.js will be prefixed with /kanbans under /api
+app.use("/api", taskRoutes);  // Use the imported taskRoutes with /api
+app.use("/auth", authRoutes);
+app.use("/api", userRoutes);
+app.use("/api", kanbanRoutes);
 
 // MongoDB connection
 mongoose.connect("mongodb://127.0.0.1:27017/project_portal")

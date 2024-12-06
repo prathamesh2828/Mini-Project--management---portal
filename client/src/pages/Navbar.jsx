@@ -1,22 +1,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import "./Navbar.css"; // Create a separate CSS file for Navbar styles
 
 const Navbar = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/login"); // Redirect to login after logout
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Search query:", searchQuery);
-    // Handle search logic
   };
 
   return (
@@ -33,34 +25,7 @@ const Navbar = () => {
           Mini Project Portal
         </Link>
 
-        <form className="d-flex" onSubmit={handleSearch}>
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button className="btn btn-outline-success" type="submit">
-            Search
-          </button>
-        </form>
-
-        
-
-
-{/* inbox */}
-        <button type="button" class=" btn btn-light position-relative">
-                 <i class="bi bi-bell-fill"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            9+
-            <span class="visually-hidden">unread messages</span>
-            </span>
-          </button>
-
-
-{/* profile drope down */}
+        {/* Profile Dropdown */}
         <DropdownButton
           align="end"
           title={
