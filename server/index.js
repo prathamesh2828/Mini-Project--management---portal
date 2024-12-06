@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes"); // Auth routes
 const userRoutes = require("./routes/userRoutes"); // User routes
 const kanbanRoutes = require("./routes/kanbanRoutes"); // Kanban routes
-
+const taskRoutes = require("./routes/taskRoutes")
 const app = express();
 
 // Middleware
@@ -13,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json()); // Use JSON parser middleware for POST requests
 
 // Routes
+app.use("/api",taskRoutes)
 app.use("/auth", authRoutes); // All routes in authRoutes.js will be prefixed with /auth
 app.use("/api", userRoutes); // All routes in userRoutes.js will be prefixed with /user
 app.use('/api', kanbanRoutes); // All routes in kanbanRoutes.js will be prefixed with /kanbans under /api
