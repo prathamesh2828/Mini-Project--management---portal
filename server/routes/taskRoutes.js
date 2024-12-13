@@ -19,6 +19,35 @@ router.get('/tasks', async (req, res) => {
     res.status(500).json({ message: 'Error fetching tasks' });
   }
 });
+router.post('/tasks', async (req, res) => {
+  try {
+    const { taskName, taskDetails, deadline, prj_id } = req.body;
+
+    // Check if any required field is missing
+    if (!taskName || !taskDetails || !deadline || !prj_id) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    const newTask = new Task({
+      taskName,
+      taskDetails,
+      deadline,
+      prj_id, // The ID of the project this task belongs to
+    });
+
+    // Save the new task to the database
+    await newTask.save();
+    res.status(201).json({ task: newTask, message: 'Task created successfully!' });
+  } catch (error) {
+    // Log the error details for better debugging
+    console.error('Error creating task:', error);
+
+    // Respond with a more detailed error message
+    res.status(500).json({ message: 'Error creating task', error: error.message });
+  }
+});
+
+
 
 router.delete('/tasks/:id', async (req, res) => {
   const { id } = req.params;

@@ -23,7 +23,13 @@
         return;
       }
     
-      const taskData = { taskName, taskDetails, deadline, teamId: selectedTeam };
+      // Use prj_id instead of teamId to match the backend
+      const taskData = { 
+        taskName, 
+        taskDetails, 
+        deadline, 
+        prj_id: selectedTeam // Use prj_id here
+      };
     
       try {
         console.log('Sending task data:', taskData); // Debugging log
@@ -50,6 +56,7 @@
         alert('An error occurred. Please try again later.');
       }
     };
+    
     
     
     

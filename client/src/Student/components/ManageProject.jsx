@@ -63,7 +63,7 @@ function ManageProject() {
       task._id === taskId ? { ...task, status: newStatus } : task
     );
     setTasks(updatedTasks); // Optimistically update the UI
-  
+
     try {
       await axios.put(`http://localhost:3001/api/kanbans`, {
         id: taskId,
@@ -74,7 +74,6 @@ function ManageProject() {
       alert("Failed to update task status. Please try again.");
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -89,28 +88,32 @@ function ManageProject() {
         Add New Task
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
         <KanbanColumn
           title="To Do"
           tasks={tasks.filter((task) => task.status === "To Do")}
           updateTaskStatus={updateTaskStatus}
+          columnClass="bg-white" // Default column color
         />
         <KanbanColumn
           title="In Progress"
           tasks={tasks.filter((task) => task.status === "In Progress")}
           updateTaskStatus={updateTaskStatus}
+          columnClass="bg-blue-100" // Light blue column color
         />
         <KanbanColumn
           title="Completed"
           tasks={tasks.filter((task) => task.status === "Completed")}
           updateTaskStatus={updateTaskStatus}
+          columnClass="bg-green-100" // Green background for Completed column
         />
+       
       </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
-            <h3 className="text-2xl font-bold mb-6">Add New Task</h3>
+          <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg transition-all transform">
+            <h3 className="text-2xl font-bold mb-6 text-gray-900">Add New Task</h3>
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">Task Title</label>
               <input
@@ -211,9 +214,9 @@ function ManageProject() {
   );
 }
 
-function KanbanColumn({ title, tasks, updateTaskStatus }) {
+function KanbanColumn({ title, tasks, updateTaskStatus, columnClass }) {
   return (
-    <div>
+    <div className={`p-4 rounded-lg shadow-md ${columnClass}`}>
       <h3 className="text-3xl font-semibold mb-4 text-gray-700">{title}</h3>
       <div className="space-y-6">
         {tasks.map((task) => (
@@ -232,11 +235,11 @@ function KanbanCard({ task, updateTaskStatus }) {
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 transition-all transform hover:shadow-xl hover:scale-105 duration-200">
       <div className="flex justify-between items-center mb-4">
-        <h4 className="text-xl font-bold text-gray-800">{task.title}</h4>
+        <h4 className="text-xl font-semibold text-gray-800">{task.title}</h4>
         <select
           value={task.status}
           onChange={(e) => updateTaskStatus(task._id, e.target.value)}
-          className="bg-gray-200 rounded px-2 py-1 text-gray-700"
+          className="bg-indigo-100 text-indigo-800 rounded px-3 py-1 text-sm focus:ring-indigo-500"
         >
           <option value="To Do">To Do</option>
           <option value="In Progress">In Progress</option>
